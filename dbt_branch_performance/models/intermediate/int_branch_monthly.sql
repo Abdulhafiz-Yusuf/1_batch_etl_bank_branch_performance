@@ -12,7 +12,7 @@ metrics as (
     select
         branch_id,
         branch_name,
-        EXTRACT(month FROM performance_date) as month,
+        performance_date,
         sum(total_deposits)       as total_deposits,
         sum(total_loans)          as total_loans,
         sum(new_accounts)         as new_accounts,
@@ -20,7 +20,10 @@ metrics as (
         sum(net_profit)           as net_profit,
         sum(operating_expenses)   as operating_expenses
     from base
-    group by branch_id, branch_name, EXTRACT(month FROM performance_date)
+    group by branch_id, 
+            branch_name, 
+            performance_date
+            
 
 )
 

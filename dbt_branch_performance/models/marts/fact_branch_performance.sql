@@ -10,8 +10,9 @@ kpis as (
 
     select
         branch_id,
-        branch_name,
-        month,
+        performance_date,
+        
+        -- Metrics
         total_deposits,
         total_loans,
         new_accounts,

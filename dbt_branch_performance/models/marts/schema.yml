@@ -7,16 +7,15 @@ models:
       - name: branch_id
         tests:
           - not_null
-          - unique
-
-      - name: branch_name
+          - relationships:
+              to: ref('dim_branch')
+              field: branch_id
+      - name: performance_date
         tests:
           - not_null
-
-      - name: month
-        tests:
-          - not_null
-
+          - relationships:
+              to: ref('dim_date')
+              field: date_id
       - name: total_deposits
         tests:
           - not_null
@@ -50,3 +49,46 @@ models:
         tests:
           - dbt_utils.expression_is_true:
               expression: "profit_per_new_account >= 0"
+  - name: dim_branch
+    description: "Branch dimension table containing unique bank branches"
+    columns:
+      - name: branch_id
+        description: "Unique branch identifier"
+        meta:
+          is_primary_key: true
+        tests:
+          - not_null
+          - unique
+
+      - name: branch_name
+        description: "Branch descriptive name"
+        tests:
+          - not_null
+  - name: dim_date
+    description: "Date dimension table for analytics and time-based reporting"
+    columns:
+      - name: date_id
+        description: "Primary key for date dimension"
+        tests:
+          - not_null
+          - unique
+
+      - name: full_date
+        tests:
+          - not_null
+
+      - name: year
+        tests:
+          - not_null
+
+      - name: month
+        tests:
+          - not_null
+
+      - name: day
+        tests:
+          - not_null
+
+      - name: is_weekend
+        tests:
+          - not_null
