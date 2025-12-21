@@ -1,8 +1,8 @@
 # pipeline.py
-
-import pandas as pd
 import os
-from etl import extract_data, transform_data, load_data
+from extract import extract_data  # Direct import, no "etl."
+from transform import transform_data
+from load import load_data
 
 
 def run_etl_pipeline(file_path: str) -> None:
@@ -26,8 +26,8 @@ def run_etl_pipeline(file_path: str) -> None:
 
     # Load
     load_data(transformed_data)
-    print("ETL pipeline completed successfully.")
+    print("ETL pipeline completed successfully.\n")
 
 if __name__ == "__main__":
-    raw_data_file_path = os.path.join("data", "bank_branch_performance.csv")
+    raw_data_file_path = os.path.join("..","data", "bank_branch_performance.csv")
     run_etl_pipeline(raw_data_file_path)

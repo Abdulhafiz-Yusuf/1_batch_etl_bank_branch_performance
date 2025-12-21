@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: silver
+    database: de_db
+    schema: silver
+    tables:
+      - name: bank_branch_performance
+        description: "Cleaned branch-level performance data from ETL pipeline"
+
+models:
+  - name: stg_bank_branch_performance
+    description: "Staging model for bank branch performance metrics"
+    columns:
+      - name: branch_id
+        description: "Unique identifier for each branch"
+        tests:
+          - not_null
+          
+
+      - name: branch_name
+        description: "Branch name"
+        tests:
+          - not_null
+
+      - name: performance_date
+        description: "Date of the performance metrics"
+        tests:
+          - not_null
+
+      - name: total_deposits
+        description: "Total deposits at branch"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_deposits >= 0"
+
+      - name: total_loans
+        description: "Total loans at branch"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_loans >= 0"
+
+      - name: new_accounts
+        description: "Number of new accounts opened"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "new_accounts >= 0"
+
+      - name: closed_accounts
+        description: "Number of accounts closed"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "closed_accounts >= 0"
+
+      - name: net_profit
+        description: "Net profit of branch"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "net_profit >= 0"
+
+      - name: operating_expenses
+        description: "Operating expenses of branch"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "operating_expenses >= 0"

@@ -12,7 +12,8 @@ def extract_data(file_path: str) -> pd.DataFrame:
     """
     try:
         # Read the raw csv file
-        data = pd.read_csv(file_path)
+        data = pd.read_csv(file_path, dtype={"branch_id": str})
+        print("\n\nData extraction completed successfully.")
         return data
     except Exception as e:
         print(f"An error occurred while extracting data: {e}")

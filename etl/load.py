@@ -1,23 +1,31 @@
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 def load_data(transformed_data: pd.DataFrame) -> None:
+    """
+    Load transformed data into the silver.bank_branch_performance table.
+    Safely refreshes the table without dropping dependent views.
+    """
     df = transformed_data
     try:
-    # This function will load data to the destination
-    # Implementation goes here:
-        # 1. Connect to the database or data warehouse
-        engine = create_engine("postgresql://halimat:halimat123@localhost:5432/odoo_db")
-  
-        # 2. Load the transformed data into the appropriate table or collection
-        df.to_sql(
-        "stg_branch_performance",
-        engine,
-        schema="staging",
-        if_exists="replace",
-        index=False)
-        return
+        # 1. Connect to the database
+        engine = create_engine("postgresql://halimat:halimat123@localhost:5432/de_db")
+
+        with engine.begin() as conn:  # begin a transaction
+            # 2. Truncate the table to remove old data safely
+            conn.execute(text("DELETE FROM silver.bank_branch_performance"))
+
+            # 3. Load the transformed data
+            df.to_sql(
+                "bank_branch_performance",
+                engine,
+                schema="silver",
+                if_exists="append",  # append to truncated table
+                index=False
+            )
+
+        rows = df.shape[0]
+        print(f"{rows} rows loaded to silver.bank_branch_performance successfully.\n")
+
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
-        return
-    

@@ -60,7 +60,7 @@ class BankDataCleaner:
 
     def clean_dates(self, series: pd.Series) -> pd.Series:
         cleaned = pd.to_datetime(series, errors="coerce")
-        return cleaned.fillna("UNKNOWN")
+        return cleaned
     
 
     def clean_numeric(self, series: pd.Series) -> pd.Series:

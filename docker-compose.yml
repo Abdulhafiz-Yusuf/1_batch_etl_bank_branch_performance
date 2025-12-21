@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: halimat
       POSTGRES_PASSWORD: halimat123
-      POSTGRES_DB: odoo_db
+      POSTGRES_DB: de_db
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     ports:
