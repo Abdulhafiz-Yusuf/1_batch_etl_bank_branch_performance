@@ -5,8 +5,8 @@ with date_spine as (
     -- Generate a calendar range
     select
         generate_series(
-            date '2015-01-01',
-            date '2035-12-31',
+            date '2024-01-01',
+            date '2024-12-31',
             interval '1 day'
         )::date as date_day
 
