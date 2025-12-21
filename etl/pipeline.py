@@ -29,5 +29,5 @@ def run_etl_pipeline(file_path: str) -> None:
     print("ETL pipeline completed successfully.\n")
 
 if __name__ == "__main__":
-    raw_data_file_path = os.path.join("..","data", "bank_branch_performance.csv")
+    raw_data_file_path = os.path.join("data", "bank_branch_performance.csv")
     run_etl_pipeline(raw_data_file_path)

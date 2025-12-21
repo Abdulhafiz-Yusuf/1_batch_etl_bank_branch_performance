@@ -9,11 +9,15 @@ def load_data(transformed_data: pd.DataFrame) -> None:
     df = transformed_data
     try:
         # 1. Connect to the database
-        engine = create_engine("postgresql://halimat:halimat123@localhost:5432/de_db")
+        engine = create_engine("postgresql://abuammar:abuammar123@localhost:5432/de_db")
 
-        with engine.begin() as conn:  # begin a transaction
-            # 2. Truncate the table to remove old data safely
-            conn.execute(text("DELETE FROM silver.bank_branch_performance"))
+        with engine.begin() as conn:
+            result = conn.execute(text(
+                "SELECT to_regclass('silver.bank_branch_performance')"
+            )).scalar()
+            
+            if result:
+                conn.execute(text("DELETE FROM silver.bank_branch_performance"))
 
             # 3. Load the transformed data
             df.to_sql(
