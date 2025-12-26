@@ -2,7 +2,7 @@
 with base as (
 
     select *
-    from {{ ref('stg_bank_branch_performance') }}
+    from {{ ref('int_clean_branch_performance') }}
    
 
 ),

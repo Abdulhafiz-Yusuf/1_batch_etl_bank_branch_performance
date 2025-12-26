@@ -35,12 +35,9 @@ quoting:
 models:
   dbt_branch_performance:
     # Config indicated by + and applies to all files under models/example/
-    staging:
-      +schema: staging
-      +database: de_db
-    intermediate:
-      +schema: intermediate
-      +database: de_db
-    marts:
-      +schema: marts
-      +database: de_db
+    silver:
+      +schema: silver
+      +materialized: view
+    gold:
+      +schema: gold
+      +materialized: table

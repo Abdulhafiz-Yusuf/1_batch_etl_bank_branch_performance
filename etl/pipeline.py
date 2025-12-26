@@ -1,6 +1,6 @@
 # pipeline.py
 import os
-from extract import extract_data  # Direct import, no "etl."
+from extract import extract_data 
 from transform import transform_data
 from load import load_data
 

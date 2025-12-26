@@ -1,14 +1,16 @@
-# transform
-
+# transform.py
 import pandas as pd
+from bronze_cleaner import BronzeCleaner
 
 def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     try:
-        from bank_data_cleaner import BankDataCleaner
-        cleaner = BankDataCleaner()
+      
+        cleaner = BronzeCleaner()
+        
+        # Note: 'date' column instead of 'performance_date'
         branch_column_types = {
-            'text_columns': ['branch_id','branch_name'],
-            'date_columns': ['date'],
+            'text_columns': ['branch_id', 'branch_name'],
+            'date_columns': ['performance_date'],  
             'numeric_columns': [
                 'new_accounts',
                 'operating_expenses',

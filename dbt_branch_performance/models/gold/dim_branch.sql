@@ -8,7 +8,7 @@ with base as (
         branch_id,
         branch_name
 
-    from {{ ref('stg_bank_branch_performance') }}
+    from {{ ref('int_clean_branch_performance') }}
 
 )
 
