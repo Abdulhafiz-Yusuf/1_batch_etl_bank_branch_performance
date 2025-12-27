@@ -10,7 +10,7 @@ The pipeline is designed for **idempotent, incremental loading**, ensuring **dat
 
 ## Architecture
 
-![Architecture Diagram](docs/architecture.png)
+![Architecture Diagram](image.png)
 
 **Layer Responsibilities**
 
