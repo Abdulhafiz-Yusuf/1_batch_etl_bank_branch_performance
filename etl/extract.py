@@ -1,32 +1,44 @@
 import pandas as pd
+from pathlib import Path
 
 def extract_data(file_path: str) -> pd.DataFrame:
     """
-    Extract data from a CSV file and return it as a pandas DataFrame.
-
-    Parameters:
-    file_path (str): The path to the CSV file.
-
-    Returns:
-    pd.DataFrame: The extracted data as a DataFrame.
+    Reads all CSV files in a folder and returns
+    a single concatenated DataFrame.
     """
     try:
-        # Read the raw csv file
-        data = pd.read_csv(file_path, dtype={"branch_id": str})
-        print("\n\nData extraction completed successfully.")
-        return data
+        folder_path = Path(file_path)
+        csv_files = list(folder_path.glob("*.csv"))
+
+        if not csv_files:
+            raise FileNotFoundError(f"No CSV files found in {folder_path}")
+
+        dataframes = []
+
+        for file in csv_files:
+            print(f"📥 Reading {file.name}")
+            df = pd.read_csv(file)
+            dataframes.append(df)
+
+        combined_df = pd.concat(dataframes, ignore_index=True)
+
+        print(f"✅ Extracted {len(combined_df)} total rows from {len(csv_files)} files")
+
+        return combined_df
+
     except Exception as e:
         print(f"An error occurred while extracting data: {e}")
         return pd.DataFrame()
+
+
+
+
 if __name__ == "__main__":
-    import os
-    df = extract_data(os.path.join('data','bank_branch_performance.csv'))
-    null_branch = df[df['branch_name'].isnull()]
-    
-    # print(null_branch['branch_id',])
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    DATA_DIR = BASE_DIR / "data"
+    df = extract_data(DATA_DIR)
+    # null_branch = df[df['branch_name'].isnull()]
     # print(df.query('branch_name.isnull()')
-    #     #   [['branch_id', 'date', 'net_profit']]
-    #       )
     # print(df.isna().sum())
     print(df.info())
     # df.dtypes

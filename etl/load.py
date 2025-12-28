@@ -27,9 +27,7 @@ def load_data(transformed_data: pd.DataFrame) -> None:
 
     # Convert pandas NaT / NaN to Python None → PostgreSQL NULL
     df = df.where(pd.notnull(df), None)
-
     conn = None
-
     try:
         # -------------------- CONNECT --------------------
         conn = psycopg2.connect(**DB_CONFIG)

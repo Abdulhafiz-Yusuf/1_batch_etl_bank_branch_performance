@@ -1,5 +1,5 @@
 # pipeline.py
-import os
+from pathlib import Path
 from extract import extract_data 
 from transform import transform_data
 from load import load_data
@@ -29,5 +29,6 @@ def run_etl_pipeline(file_path: str) -> None:
     print("ETL pipeline completed successfully.\n")
 
 if __name__ == "__main__":
-    raw_data_file_path = os.path.join("data", "bank_branch_performance.csv")
-    run_etl_pipeline(raw_data_file_path)
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    DATA_DIR = BASE_DIR / "data"
+    run_etl_pipeline(DATA_DIR)
