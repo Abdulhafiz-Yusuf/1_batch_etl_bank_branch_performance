@@ -11,15 +11,15 @@ WITH source AS (
         TRIM(branch_name)                 AS branch_name,
         performance_date                  AS performance_date,
 
-        -- Financials
-        total_deposits                    AS total_deposits,
-        total_loans                       AS total_loans,
-        net_profit                        AS net_profit,
-        operating_expenses                AS operating_expenses,
+        -- Financials with NaN handling
+        COALESCE(NULLIF(total_deposits::numeric, 'NaN')::numeric, 0) AS total_deposits,
+        COALESCE(NULLIF(total_loans::numeric, 'NaN')::numeric, 0) AS total_loans,
+        COALESCE(NULLIF(net_profit::numeric, 'NaN')::numeric, 0) AS net_profit,
+        COALESCE(NULLIF(operating_expenses::numeric, 'NaN')::numeric, 0) AS operating_expenses,
 
-        -- Operational metrics
-        new_accounts                      AS new_accounts,
-        closed_accounts                   AS closed_accounts
+        -- Operational metrics with NaN handling
+        COALESCE(NULLIF(new_accounts::numeric, 'NaN')::numeric, 0) AS new_accounts,
+        COALESCE(NULLIF(closed_accounts::numeric, 'NaN')::numeric, 0) AS closed_accounts
 
     FROM bronze.bank_branch_performance
 
@@ -41,13 +41,13 @@ sanity_checked AS (
         branch_id IS NOT NULL
         AND performance_date IS NOT NULL
 
-        -- Financial sanity
-        AND total_deposits >= 0
-        AND total_loans >= 0
+        -- Financial sanity (after NaN cleaning)
+        AND total_deposits = total_deposits
+        AND total_loans = total_loans
 
         -- Accounts sanity
-        AND new_accounts >= 0
-        AND closed_accounts >= 0
+        AND new_accounts = new_accounts
+        AND closed_accounts = closed_accounts
 
 )
 

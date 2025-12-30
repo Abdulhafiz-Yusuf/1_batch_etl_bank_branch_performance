@@ -21,3 +21,13 @@ CREATE TABLE IF NOT EXISTS bronze.bank_branch_performance (
 
 
 
+
+-- SELECT
+--   COUNT(*) AS total_rows,
+--   COUNT(CASE WHEN total_loans::text = 'NaN' THEN 1 END) AS nan_count,
+--   COUNT(CASE WHEN total_loans IS NULL THEN 1 END) AS null_count
+-- FROM silver.int_clean_branch_performance;
+
+
+
+

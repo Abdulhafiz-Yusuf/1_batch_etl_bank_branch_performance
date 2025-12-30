@@ -26,6 +26,7 @@ models:
         tests:
           - dbt_utils.expression_is_true:
               expression: "liquidity_gap IS NOT NULL"
+    
 # =============== dim_branch ===============  
   - name: dim_branch
     description: "Branch dimension table containing unique bank branches"
